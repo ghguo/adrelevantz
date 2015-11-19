@@ -221,6 +221,8 @@ function buildZoneForm($zone, $oComponent = null)
 
     $form->addGroup($sizeTypes, 'size_types', $GLOBALS['strSize'], "<br/>");
 
+    $form->addElement('checkbox', 'matchcontent', 'Match content');
+    
     $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
 
     if ($oComponent && method_exists($oComponent, 'extendZoneForm')) {
@@ -327,6 +329,7 @@ function processForm($form, $oComponent = null)
 
             $doZones->oac_category_id  = $aFields['oac_category_id'];
             $doZones->zoneid = $aFields['zoneid'];
+            $doZones->matchcontent = empty($aFields['matchcontent']) ? 0 : $aFields['matchcontent'];
             $doZones->update();
 
             // Reset append codes which called this zone

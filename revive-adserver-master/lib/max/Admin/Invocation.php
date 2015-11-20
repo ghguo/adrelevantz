@@ -88,6 +88,7 @@ class MAX_Admin_Invocation {
             'withtext',
             'xmlrpcproto',
             'xmlrpctimeout',
+            'matchcontent',
         );
 
         // Add any plugin-specific option values to the global array...

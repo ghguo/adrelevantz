@@ -80,6 +80,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 z.width,
                 z.height,
                 z.delivery,
+                z.matchcontent,
                 af.website
             FROM
                 {$tableZ} AS z,

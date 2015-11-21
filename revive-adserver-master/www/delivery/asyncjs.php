@@ -15,8 +15,8 @@ require_once '../../init-delivery.php';
 
 $etag = md5("{$conf['webpath']['delivery']}*{$conf['webpath']['deliverySSL']}");
 $product = $GLOBALS['_MAX']['CONF']['var']['product'];
-$catsHost = "http://192.168.227.1/BarcodeToU/Subscription/GetCatsGeneral";
-$catsAppId = "D435C107A8844E15BAA5D4A9B7D94FC5";
+$catsHost = $GLOBALS['_MAX']['CONF']['var']['catsServer'];
+$catsAppId = $GLOBALS['_MAX']['CONF']['var']['catsServerKey'];
 
 if (!empty($_SERVER["HTTP_IF_NONE_MATCH"]) && $_SERVER["HTTP_IF_NONE_MATCH"] == $etag) {
     header("HTTP/1.x 304 Not modified");

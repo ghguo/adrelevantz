@@ -526,7 +526,7 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
     $translation = new OX_Translation();
 
     //common for all banners
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $form->addElement('header', 'header_additional', "Additional data");
         $form->addElement('text', 'keyword', $GLOBALS['strKeyword']);
         $iabCat1 = $form->createElement('select', 'iab_cat1', 'Iab Category 1:', $GLOBALS['IAB_CATEGORIES']['LEVEL1']);

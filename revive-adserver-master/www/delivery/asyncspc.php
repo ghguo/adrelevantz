@@ -3802,32 +3802,62 @@ function applyIabCategories($cat1, $cat2, $cat3, $aAds)
 {
 	$a = array();
 	if (is_array($aAds) && !is_null($aAds['lAds']) && count($aAds['lAds']) > 0){
-		if (!empty($cat2) && !empty($cat3))
-		{
-			foreach ($aAds['lAds'] as $ad) {
-				if ($ad['category1']==$cat1 && $ad['category2']==$cat2 && $ad['category3']==$cat3) {
-					$a[] = $ad;
-				}
+		$rnds = array();
+		mt_rand(0, 100);//Skip the first random number
+		for ($i = 0; $i < 2; $i++) {
+			$rnds[] = (2 - $i) * mt_rand(0, 100);
+		}
+		$idxMax = 0;
+		$vMax = $rnds[0];
+		for ($k = 1; $k < 2; $k++) {
+			if ($rnds[$k] > $vMax) {
+				$vMax = $rnds[$k];
+				$idxMax = $k;
 			}
 		}
-		if (count($a) > 0) {
-			$aAds['lAds'] = $a;
+		if ($idxMax == 1) {
 			return $aAds;
 		}
-		else {
-			if (!empty($cat2))
-			{
+		
+		if (!empty($cat1) && !empty($cat2) && !empty($cat3))
+		{
+			$rnds = array();
+			mt_rand(0, 100);//Skip the first random number
+			for ($i = 0; $i < 3; $i++) {
+				$rnds[] = (3 - $i) * mt_rand(0, 100);
+			}
+			$idxMax = 0;
+			$vMax = $rnds[0];
+			for ($k = 1; $k < 3; $k++) {
+				if ($rnds[$k] > $vMax) {
+					$vMax = $rnds[$k];
+					$idxMax = $k;
+				}
+			}
+			
+			if ($idxMax == 0) {
+				foreach ($aAds['lAds'] as $ad) {
+					if ($ad['category1']==$cat1 && $ad['category2']==$cat2 && $ad['category3']==$cat3) {
+						$a[] = $ad;
+					}
+				}
+				if (count($a) > 0) {
+					$aAds['lAds'] = $a;
+					return $aAds;
+				}
+				
+				unset($a);
 				foreach ($aAds['lAds'] as $ad) {
 					if ($ad['category1']==$cat1 && $ad['category2']==$cat2) {
 						$a[] = $ad;
 					}
 				}
-			}
-			if (count($a) > 0) {
-				$aAds['lAds'] = $a;
-				return $aAds;
-			}
-			else {
+				if (count($a) > 0) {
+					$aAds['lAds'] = $a;
+					return $aAds;
+				}
+
+				unset($a);
 				foreach ($aAds['lAds'] as $ad) {
 					if ($ad['category1']==$cat1) {
 						$a[] = $ad;
@@ -3837,6 +3867,101 @@ function applyIabCategories($cat1, $cat2, $cat3, $aAds)
 					$aAds['lAds'] = $a;
 					return $aAds;
 				}
+			}
+			elseif ($idxMax == 1) {
+				foreach ($aAds['lAds'] as $ad) {
+					if ($ad['category1']==$cat1 && $ad['category2']==$cat2) {
+						$a[] = $ad;
+					}
+				}
+				if (count($a) > 0) {
+					$aAds['lAds'] = $a;
+					return $aAds;
+				}
+
+				unset($a);
+				foreach ($aAds['lAds'] as $ad) {
+					if ($ad['category1']==$cat1) {
+						$a[] = $ad;
+					}
+				}
+				if (count($a) > 0) {
+					$aAds['lAds'] = $a;
+					return $aAds;
+				}
+			} 
+			elseif ($idxMax == 2) {
+				foreach ($aAds['lAds'] as $ad) {
+					if ($ad['category1']==$cat1) {
+						$a[] = $ad;
+					}
+				}
+				if (count($a) > 0) {
+					$aAds['lAds'] = $a;
+					return $aAds;
+				}
+			} 
+		}
+		elseif (!empty($cat1) && !empty($cat2))
+		{
+			$rnds = array();
+			mt_rand(0, 100);//Skip the first random number
+			for ($i = 0; $i < 2; $i++) {
+				$rnds[] = (2 - $i) * mt_rand(0, 100);
+			}
+			$idxMax = 0;
+			$vMax = $rnds[0];
+			for ($k = 1; $k < 2; $k++) {
+				if ($rnds[$k] > $vMax) {
+					$vMax = $rnds[$k];
+					$idxMax = $k;
+				}
+			}
+			
+			if ($idxMax == 0) {
+				foreach ($aAds['lAds'] as $ad) {
+					if ($ad['category1']==$cat1 && $ad['category2']==$cat2) {
+						$a[] = $ad;
+					}
+				}
+				if (count($a) > 0) {
+					$aAds['lAds'] = $a;
+					return $aAds;
+				}
+
+				unset($a);
+				foreach ($aAds['lAds'] as $ad) {
+					if ($ad['category1']==$cat1) {
+						$a[] = $ad;
+					}
+				}
+				if (count($a) > 0) {
+					$aAds['lAds'] = $a;
+					return $aAds;
+				}
+			}
+			elseif ($idxMax == 1) {
+				foreach ($aAds['lAds'] as $ad) {
+					if ($ad['category1']==$cat1) {
+						$a[] = $ad;
+					}
+				}
+				if (count($a) > 0) {
+					$aAds['lAds'] = $a;
+					return $aAds;
+				}
+			} 
+		}
+		elseif (!empty($cat1))
+		{
+			foreach ($aAds['lAds'] as $ad) {
+				if ($ad['category1']==$cat1) {
+					$a[] = $ad;
+				}
+			}
+			if (count($a) > 0) {
+				$aAds['lAds'] = $a;
+				return $aAds;
 			}
 		}
 	}

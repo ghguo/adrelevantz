@@ -276,15 +276,36 @@ function _buildNavigation($accountType)
             $oMenu->addTo("1.3", new OA_Admin_Menu_Section("1.3.2", 'DistributionHistoryZone', "stats.php?entity=advertiser&breakdown=zone-history&clientid={clientid}&affiliateid={affiliateid}&zoneid={zoneid}", true));
             $oMenu->addTo("1.3.2", new OA_Admin_Menu_Section("1.3.2.1", 'DailyStats', "stats.php?entity=advertiser&breakdown=daily&clientid={clientid}&affiliateid={affiliateid}&zoneid={zoneid}&day={day}"));
             $oMenu->addTo("1", new OA_Admin_Menu_Section("report-index", 'AdvancedReports', "report-index.php?clientid={clientid}", false, "reports"));
-
+/*
             $oMenu->add(new OA_Admin_Menu_Section("inventory", 'Adminstration', "advertiser-campaigns.php?clientid={clientid}", false, "inventory/advertisersAndCampaigns/campaigns"));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-campaigns", 'Campaigns', "advertiser-campaigns.php?clientid={clientid}", false, "inventory/advertisersAndCampaigns/campaigns"));
                     $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-banners", 'Banners', "campaign-banners.php?clientid={clientid}&campaignid={campaignid}", false, "inventory/advertisersAndCampaigns/campaigns/banners"));
                         $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit", 'BannerProperties', "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/editBanner", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_BANNER_EDIT))));
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-access", 'UserAccess', "advertiser-access.php?clientid={clientid}", false, "", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_SUPER_ACCOUNT))));
                     $oMenu->addTo("advertiser-access", new OA_Admin_Menu_Section("advertiser-user", 'UserProperties', "advertiser-user.php?userid={userid}&clientid={clientid}", false, "", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_SUPER_ACCOUNT))));
+*/
+//            $oMenu->add(new OA_Admin_Menu_Section("inventory", 'Adminstration', "advertiser-index.php", false, ""));
+            $oMenu->add(new OA_Admin_Menu_Section("inventory", 'Adminstration', "advertiser-campaigns.php?clientid={clientid}", false, "inventory/advertisersAndCampaigns/campaigns"));
+            $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-campaigns", 'Campaigns', "advertiser-campaigns.php", false, "inventory/advertiserAndCampaings/campaigns", null, 1, false, 'g_adv'));
+                $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-edit_new", 'AddCampaign', "campaign-edit.php?clientid={clientid}", true, "inventory/advertiserAndCampaings/campaigns/addCampaign"));
+                $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-edit", 'CampaignProperties', "campaign-edit.php?clientid={clientid}&campaignid={campaignid}", false, "inventory/advertisersAndCampaigns/campaigns/editCampaign"));
+                $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-zone", 'LinkedZones', "campaign-zone.php?clientid={clientid}&campaignid={campaignid}", false, "inventory/advertisersAndCampaigns/campaigns/linkedZones"));
+                if ($aConf['logging']['trackerImpressions']) {
+                    $oMenu->addTo("advertiser-campaigns", new OA_Admin_Menu_Section("campaign-trackers", 'LinkedTrackers', "campaign-trackers.php?clientid={clientid}&campaignid={campaignid}", false, "inventory/advertisersAndCampaigns/campaigns/linkedTrackers"));
+                }
 
-            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'Preferences', "account-index.php", false, "settings"));
+            $oMenu->addTo("inventory", new OA_Admin_Menu_Section("campaign-banners", 'Banners', "campaign-banners.php", false, "inventory/advertisersAndCampaigns/campaigns/banners", null, 1, false, 'g_adv'));
+                $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit_new", 'AddBanner', "banner-edit.php?clientid={clientid}&campaignid={campaignid}", true, "inventory/advertisersAndCampaigns/campaigns/banners/addBanner"));
+                $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-edit", 'BannerProperties', "banner-edit.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/banners/editBanner"));
+                $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-swf", 'ConvertSWFLinks', "banner-swf.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, null, array(), 1, true));
+                $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-acl", 'ModifyBannerAcl', "banner-acl.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/banners/editBanner/deliveryOptions"));
+                $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-zone", 'LinkedZones', "banner-zone.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/banners/editBanner/linkedZones"));
+                $oMenu->addTo("campaign-banners", new OA_Admin_Menu_Section("banner-advanced", 'Advanced', "banner-advanced.php?clientid={clientid}&campaignid={campaignid}&bannerid={bannerid}", false, "inventory/advertisersAndCampaigns/campaigns/banners/editBanner/convertFlashLinks"));
+
+			$oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-access", 'UserAccess', "advertiser-access.php?clientid={clientid}", false, "", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_SUPER_ACCOUNT))));
+				$oMenu->addTo("advertiser-access", new OA_Admin_Menu_Section("advertiser-user", 'UserProperties', "advertiser-user.php?userid={userid}&clientid={clientid}", false, "", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_SUPER_ACCOUNT))));
+
+					$oMenu->add(new OA_Admin_Menu_Section("account-index", 'Preferences', "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", 'UserPreferences', "account-user-index.php", false, ""));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'AccountPreferences', "account-preferences-index.php", false, "settings/prefrences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_USER_LOG_ACCESS))));

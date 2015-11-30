@@ -27,7 +27,7 @@ $advertiserId   = MAX_getValue('clientid');
 $campaignId     = MAX_getValue('campaignid');
 
 // Security check
-OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
+OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER );
 OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_VIEW);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid, true, OA_Permission::OPERATION_EDIT);
 

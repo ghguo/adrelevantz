@@ -14,7 +14,7 @@
 <div class='tableWrapper'>
     <div class='tableHeader'>
         <ul class='tableActions'>
-            {if $isManager}
+            {if $isManager || $isAdvertiser}
             <li>
                 {if $clientId == -1 || $campaignId == -1}
                 <span class='inlineIcon iconBannerAddDisabled'>{t str=AddBanner}</span>
@@ -84,11 +84,9 @@
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
-                {if $isManager}
                 <th class='first toggleAll'>
                     <input type='checkbox' />
                 </th>
-                {/if}
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=campaign-banners.php}
                 </th>
@@ -145,7 +143,7 @@
     {foreach key=bannerId item=banner from=$from}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
-                {if $isManager}
+                {if $isManager || $isAdvertiser}
                 <td class='toggleSelection'>
                     <input type='checkbox' value='{$bannerId}' />
                 </td>

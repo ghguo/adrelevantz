@@ -26,7 +26,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccessToObject('clients',   $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 OA_Permission::enforceAccessToObject('banners',   $bannerid);
@@ -204,8 +204,13 @@ phpAds_SessionDataStore();
             <tr>
                 <td>&nbsp;</td>
                 <td valign='top'><input id='affiliate$publisherId' name='affiliate[$publisherId]' type='checkbox' value='t'$checked onClick='toggleZones($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
-                <td valign='top'><img src='" . OX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>
-                <td><a href='affiliate-edit.php?affiliateid=$publisherId'>".htmlspecialchars($publisherName)."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td valign='top'><img src='" . OX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>";
+				
+				if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) echo "
+				<td><a href='affiliate-edit.php?affiliateid=$publisherId'>".htmlspecialchars($publisherName)."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+				else echo "
+				<td>".htmlspecialchars($publisherName)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+				echo "
             </tr>
         </table>
     </td>
@@ -231,8 +236,12 @@ phpAds_SessionDataStore();
             <tr>
                 <td width='28'>&nbsp;</td>
                 <td valign='top'><input name='includezone[$zoneId]' id='a$publisherId' type='checkbox' value='t'$checked onClick='toggleAffiliate($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
-                <td valign='top'><img src='$zoneIcon' align='absmiddle'>&nbsp;</td>
-                <td><a href='zone-edit.php?affiliateid=$publisherId&zoneid=$zoneId'>".htmlspecialchars($zoneName)."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td valign='top'><img src='$zoneIcon' align='absmiddle'>&nbsp;</td>";
+				if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) echo "
+                <td><a href='zone-edit.php?affiliateid=$publisherId&zoneid=$zoneId'>".htmlspecialchars($zoneName)."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+				else echo "
+                <td>".htmlspecialchars($zoneName)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+				echo "
             </tr>
         </table>
     </td>

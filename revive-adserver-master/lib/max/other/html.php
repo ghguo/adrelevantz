@@ -1766,6 +1766,7 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
     }
 
     global $phpAds_TextDirection;
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     //duplicate
     addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "banner-modify.php?duplicate=true&clientid=$advertiserId&campaignid=$campaignId&bannerid=$bannerId&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME']))), "iconBannerDuplicate");
 
@@ -1813,7 +1814,6 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
     }
 
     //delete
-    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteBanner']);
         addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "banner-delete.php?token=" . urlencode(phpAds_SessionGetToken()) . "&clientid=$advertiserId&campaignid=$campaignId&bannerid=$bannerId&returnurl=campaign-banners.php"), "iconDelete", null, $deleteConfirm);
     }

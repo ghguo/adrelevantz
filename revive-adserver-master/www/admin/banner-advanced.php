@@ -21,7 +21,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 phpAds_registerGlobalUnslashed('prepend', 'append', 'submitbutton');
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccessToObject('clients',   $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 OA_Permission::enforceAccessToObject('banners',   $bannerid);

@@ -18,7 +18,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 
 phpAds_registerGlobalUnslashed('status');
 
-OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
+OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER );
 OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
 
 /*-------------------------------------------------------*/

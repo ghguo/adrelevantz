@@ -70,7 +70,7 @@ OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
-    OA_Permission::enforceAccessToObject('banners', $bannerid);
+    OA_Permission::enforceAccessToObject('banners', $bannerid, true);
 } else {
     OA_Permission::enforceAccessToObject('banners', $bannerid, true);
 }
@@ -347,7 +347,7 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
     }
 
     $form->addElement('header', 'header_basic', $GLOBALS['strBasicInformation']);
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $form->addElement('text', 'description', $GLOBALS['strName']);
     }
     else {
@@ -553,7 +553,7 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
     $form->addElement('submit', 'submit', 'Save changes');
 
     //validation rules
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
         $form->addRule('description', $urlRequiredMsg, 'required');
     }
@@ -812,12 +812,12 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     //        phpAds_ImageDelete($aBanner['storagetype'], $aBanner['alt_filename']);
     //    }
 
-    // Clients are only allowed to modify certain fields, ensure that other fields are unchanged
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        $aVariables['weight']       = $aBanner['weight'];
-        $aVariables['description']  = $aBanner['name'];
-        $aVariables['comments']     = $aBanner['comments'];
-    }
+//    // Clients are only allowed to modify certain fields, ensure that other fields are unchanged
+//    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+//        $aVariables['weight']       = $aBanner['weight'];
+//        $aVariables['description']  = $aBanner['name'];
+//        $aVariables['comments']     = $aBanner['comments'];
+//    }
 
     $insert = (empty($bannerid)) ? true : false;
 

@@ -3802,23 +3802,6 @@ function applyIabCategories($cat1, $cat2, $cat3, $aAds)
 {
 	$a = array();
 	if (is_array($aAds) && !is_null($aAds['lAds']) && count($aAds['lAds']) > 0){
-		$rnds = array();
-		mt_rand(0, 100);//Skip the first random number
-		for ($i = 0; $i < 2; $i++) {
-			$rnds[] = (2 - $i) * mt_rand(0, 100);
-		}
-		$idxMax = 0;
-		$vMax = $rnds[0];
-		for ($k = 1; $k < 2; $k++) {
-			if ($rnds[$k] > $vMax) {
-				$vMax = $rnds[$k];
-				$idxMax = $k;
-			}
-		}
-		if ($idxMax == 1) {
-			return $aAds;
-		}
-		
 		if (!empty($cat1) && !empty($cat2) && !empty($cat3))
 		{
 			$rnds = array();

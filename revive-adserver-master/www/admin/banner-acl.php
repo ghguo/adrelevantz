@@ -156,7 +156,7 @@ echo "
 </form>";
 
 foreach ($acl as $ac) {
-	if ($ac['type'] == 'deliveryLimitations:Content:Category') {
+	if ($ac['type'] == 'deliveryLimitations:Content:Category' || $ac['type'] == 'deliveryLimitations:Content:Productcategory') {
 		$url = $_SERVER['REQUEST_URI']; //returns the current URL
 		$parts = explode('/',$url);
 		$dir = $_SERVER['SERVER_NAME'];

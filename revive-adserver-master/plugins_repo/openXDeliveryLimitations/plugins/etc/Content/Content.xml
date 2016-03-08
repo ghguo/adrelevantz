@@ -20,6 +20,7 @@
             <file path="{MODULEPATH}deliveryLimitations/Content/">Category.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Content/">iab-category.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Content/">Category.js</file>
+            <file path="{MODULEPATH}deliveryLimitations/Content/">Productcategory.js</file>
             <file path="{MODULEPATH}deliveryLimitations/Content/">Productcategory.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Content/">Productcategory.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Content/">product-category.php</file>

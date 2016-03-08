@@ -15,8 +15,6 @@ require_once '../../init-delivery.php';
 
 $etag = md5("{$conf['webpath']['delivery']}*{$conf['webpath']['deliverySSL']}");
 $product = $GLOBALS['_MAX']['CONF']['var']['product'];
-$catsHost = $GLOBALS['_MAX']['CONF']['var']['catsServer'];
-$catsAppId = $GLOBALS['_MAX']['CONF']['var']['catsServerKey'];
 
 if (!empty($_SERVER["HTTP_IF_NONE_MATCH"]) && $_SERVER["HTTP_IF_NONE_MATCH"] == $etag) {
     header("HTTP/1.x 304 Not modified");

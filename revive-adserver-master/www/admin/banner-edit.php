@@ -23,7 +23,6 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 require_once LIB_PATH . '/Plugin/Component.php';
-require_once 'iab-category.php';
 
 $htmltemplate = MAX_commonGetValueUnslashed('htmltemplate');
 
@@ -294,12 +293,6 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, 
     $aOtherCampaigns = Admin_DA::getPlacements(array($entityType => $entityId));
     $aOtherBanners = Admin_DA::getAds(array('placement_id' => $campaignid), false);
 
-    //$jsFile = MAX::constructURL(MAX_URL_ADMIN, '') . 'assets/js/jquery-1.9.1.min.js';
-    //$GLOBALS['_MAX']['ADMIN_UI'] = OA_Admin_UI::getInstance();
-    //$GLOBALS['_MAX']['ADMIN_UI']->registerJSFile($jsFile);
-    //$jsFile = MAX::constructURL(MAX_URL_ADMIN, '') . 'assets/js/jquery/ui/1.10.1/jquery-ui.min.js';
-    //$GLOBALS['_MAX']['ADMIN_UI']->registerJSFile($jsFile);
-    
     // Display banner preview
     MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
 
@@ -327,6 +320,7 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, 
     /*********************************************************/
     phpAds_PageFooter();
 }
+
 
 function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false)
 {
@@ -526,19 +520,9 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
     $translation = new OX_Translation();
 
     //common for all banners
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $form->addElement('header', 'header_additional', "Additional data");
         $form->addElement('text', 'keyword', $GLOBALS['strKeyword']);
-        $iabCat1 = $form->createElement('select', 'iab_cat1', 'Iab Category 1:', $GLOBALS['IAB_CATEGORIES']['LEVEL1']);
-        $iabCat1->setAttribute("class", "cat1");
-        //$iabCat1->setSelected("business and industrial");
-        $form->addElement($iabCat1);
-        $iabCat2 = $form->createElement('select', 'iab_cat2', 'Iab Category 2:', $GLOBALS['IAB_CATEGORIES']['LEVEL2']);
-        $iabCat2->setAttribute("class", "cat2");
-        $form->addElement($iabCat2);
-        $iabCat3 = $form->createElement('select', 'iab_cat3', 'Iab Category 3:', $GLOBALS['IAB_CATEGORIES']['LEVEL3']);
-        $iabCat3->setAttribute("class", "cat3");
-        $form->addElement($iabCat3);
         $weightElem = $form->createElement('text', 'weight', $GLOBALS['strWeight']);
         $weightElem->setSize(6);
         $form->addElement($weightElem);
@@ -558,23 +542,8 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
         $form->addRule('description', $urlRequiredMsg, 'required');
     }
 
-    $aBannerWithSelected = array();
-    foreach ($aBanner as $k => $v) {
-    	if ($k == 'iab_cat1') {
-    		$aBannerWithSelected[$k] = array_search($v, $GLOBALS['IAB_CATEGORIES']['LEVEL1']);
-    	}
-    	elseif ($k == 'iab_cat2') {
-   			$aBannerWithSelected[$k] = array_search($v, $GLOBALS['IAB_CATEGORIES']['LEVEL2']);
-    	}
-    	elseif ($k == 'iab_cat3') {
-   			$aBannerWithSelected[$k] = array_search($v, $GLOBALS['IAB_CATEGORIES']['LEVEL3']);
-    	}
-    	else 
-    		$aBannerWithSelected[$k] = $v;
-    }
     //set banner values
-    $form->setDefaults($aBannerWithSelected);
-    //$form->setDefaults($aBanner);
+    $form->setDefaults($aBanner);
 
     foreach ($aBanner['hardcoded_links'] as $key => $val) {
         $swfLinks["alink[".$key."]"] = phpAds_htmlQuotes($val);
@@ -695,22 +664,6 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         $aVariables['keyword'] = '';
     }
 
-    if (isset($aFields['iab_cat1']) && $aFields['iab_cat1'] != '') {
-        $aVariables['iab_cat1'] = $GLOBALS['IAB_CATEGORIES']['LEVEL1'][$aFields['iab_cat1']];
-    } else {
-        $aVariables['iab_cat1'] = '';
-    }
-    if (isset($aFields['iab_cat2']) && $aFields['iab_cat2'] != '') {
-        $aVariables['iab_cat2'] = $GLOBALS['IAB_CATEGORIES']['LEVEL2'][$aFields['iab_cat2']];
-    } else {
-        $aVariables['iab_cat2'] = '';
-    }
-    if (isset($aFields['iab_cat3']) && $aFields['iab_cat3'] != '') {
-        $aVariables['iab_cat3'] = $GLOBALS['IAB_CATEGORIES']['LEVEL3'][$aFields['iab_cat3']];
-    } else {
-        $aVariables['iab_cat3'] = '';
-    }
-    
     $editSwf = false;
 
     // Deal with any files that are uploaded.

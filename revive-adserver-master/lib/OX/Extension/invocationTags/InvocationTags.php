@@ -222,9 +222,6 @@ class Plugins_InvocationTags extends OX_Component
         if (isset($mi->zoneid) && $mi->zoneid != '') {
             $mi->parameters['zoneid'] = $this->options['zoneid'] = $imgParams['zoneid'] = "zoneid=".urlencode($mi->zoneid);
         }
-        if (isset($mi->matchcontent) && $mi->matchcontent != '') {
-            $mi->parameters['matchcontent'] = $this->options['matchcontent'] = $imgParams['matchcontent'] = "matchcontent=".urlencode($mi->matchcontent);
-        }
         if (isset($mi->campaignid) && strlen($mi->campaignid) && $mi->campaignid != '0') {
             $mi->parameters['campaignid'] = $this->options['campaignid'] = $imgParams['campaignid'] = "campaignid=".$mi->campaignid;
         }

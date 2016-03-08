@@ -155,7 +155,19 @@ echo "
 
 </form>";
 
+foreach ($acl as $ac) {
+	if ($ac['type'] == 'deliveryLimitations:Content:Category') {
+		$url = $_SERVER['REQUEST_URI']; //returns the current URL
+		$parts = explode('/',$url);
+		$dir = $_SERVER['SERVER_NAME'];
+		for ($i = 0; $i < count($parts) - 3; $i++) {
+			$dir .= $parts[$i] . "/";
+		}
+		echo "<script type='text/javascript' src='http://" . $dir . "plugins/deliveryLimitations/Content/category.js'></script>";
 
+		break;
+	}
+}
 /*-------------------------------------------------------*/
 /* Form requirements                                     */
 /*-------------------------------------------------------*/

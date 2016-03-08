@@ -61,8 +61,7 @@ if ($zone = $dalZones->getZoneForInvocationForm($zoneid)) {
                    'width' => $zone['width'],
                    'height' => $zone['height'],
                    'delivery' => $zone['delivery'],
-                   'website' => $zone['website'],
-                   'matchcontent' => $zone['matchcontent']
+                   'website' => $zone['website']
     );
     // Ensure 3rd Party Click Tracking defaults to the preference for this agency
     if (!isset($thirdpartytrack)) {

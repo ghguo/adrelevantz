@@ -1014,7 +1014,7 @@ $query =
 "SELECT "
 ."d.bannerid AS ad_id, "  ."d.campaignid AS placement_id, "  ."d.status AS status, "  ."d.width AS width, "
 ."d.ext_bannertype AS ext_bannertype, "
-."d.height AS height, " ."d.iab_cat1 AS category1, " ."d.iab_cat2 AS category2, " ."d.iab_cat3 AS category3, "
+."d.height AS height, "
 ."d.storagetype AS type, "  ."d.contenttype AS contenttype, "  ."d.weight AS weight, "  ."d.adserver AS adserver, "  ."d.block AS block_ad, "  ."d.capping AS cap_ad, "  ."d.session_capping AS session_cap_ad, "  ."d.compiledlimitation AS compiledlimitation, "  ."d.acl_plugins AS acl_plugins, "  ."d.alt_filename AS alt_filename, "  ."az.priority AS priority, "  ."az.priority_factor AS priority_factor, "  ."az.to_be_delivered AS to_be_delivered, "  ."c.campaignid AS campaign_id, "  ."c.priority AS campaign_priority, "  ."c.weight AS campaign_weight, "  ."c.companion AS campaign_companion, "  ."c.block AS block_campaign, "  ."c.capping AS cap_campaign, "  ."c.session_capping AS session_cap_campaign, " ."c.show_capped_no_cookie AS show_capped_no_cookie, "
 ."c.clientid AS client_id, "  ."c.expire_time AS expire_time, "
 ."c.revenue_type AS revenue_type, "
@@ -3797,161 +3797,6 @@ else {
 return $zoneId;
 }
 }
-
-function applyIabCategories($cat1, $cat2, $cat3, $aAds)
-{
-	$a = array();
-	if (is_array($aAds) && !is_null($aAds['lAds']) && count($aAds['lAds']) > 0){
-		if (!empty($cat1) && !empty($cat2) && !empty($cat3))
-		{
-			$rnds = array();
-			mt_rand(0, 100);//Skip the first random number
-			for ($i = 0; $i < 3; $i++) {
-				$rnds[] = (3 - $i) * mt_rand(0, 100);
-			}
-			$idxMax = 0;
-			$vMax = $rnds[0];
-			for ($k = 1; $k < 3; $k++) {
-				if ($rnds[$k] > $vMax) {
-					$vMax = $rnds[$k];
-					$idxMax = $k;
-				}
-			}
-			
-			if ($idxMax == 0) {
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1 && $ad['category2']==$cat2 && $ad['category3']==$cat3) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-				
-				unset($a);
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1 && $ad['category2']==$cat2) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-
-				unset($a);
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-			}
-			elseif ($idxMax == 1) {
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1 && $ad['category2']==$cat2) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-
-				unset($a);
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-			} 
-			elseif ($idxMax == 2) {
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-			} 
-		}
-		elseif (!empty($cat1) && !empty($cat2))
-		{
-			$rnds = array();
-			mt_rand(0, 100);//Skip the first random number
-			for ($i = 0; $i < 2; $i++) {
-				$rnds[] = (2 - $i) * mt_rand(0, 100);
-			}
-			$idxMax = 0;
-			$vMax = $rnds[0];
-			for ($k = 1; $k < 2; $k++) {
-				if ($rnds[$k] > $vMax) {
-					$vMax = $rnds[$k];
-					$idxMax = $k;
-				}
-			}
-			
-			if ($idxMax == 0) {
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1 && $ad['category2']==$cat2) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-
-				unset($a);
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-			}
-			elseif ($idxMax == 1) {
-				foreach ($aAds['lAds'] as $ad) {
-					if ($ad['category1']==$cat1) {
-						$a[] = $ad;
-					}
-				}
-				if (count($a) > 0) {
-					$aAds['lAds'] = $a;
-					return $aAds;
-				}
-			} 
-		}
-		elseif (!empty($cat1))
-		{
-			foreach ($aAds['lAds'] as $ad) {
-				if ($ad['category1']==$cat1) {
-					$a[] = $ad;
-				}
-			}
-			if (count($a) > 0) {
-				$aAds['lAds'] = $a;
-				return $aAds;
-			}
-		}
-	}
-
-	return $aAds;
-}
-
 function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = true)
 {
 if ($zoneId === 0) { return false; }
@@ -3968,19 +3813,6 @@ $zoneId = _getNextZone($zoneId, $aZoneInfo);
 continue;
 }
 $aZoneLinkedAdInfos = MAX_cacheGetZoneLinkedAdInfos ($zoneId);
-if (!empty($_GET['cats'])) {
-	$cats = explode("/", $_GET['cats']);
-	$cat2 = '';
-	$cat3 = '';
-	if (count($cats) == 3) {
-		$cat2 = $cats[2];
-	}
-	else if (count($cats) == 4)	{
-		$cat2 = $cats[2];
-		$cat3 = $cats[3];
-	}
-	$aZoneLinkedAdInfos = applyIabCategories($cats[1], $cat2, $cat3, $aZoneLinkedAdInfos);
-}
 if (is_array($aZoneInfo)) {
 if (isset($aZoneInfo['forceappend']) && $aZoneInfo['forceappend'] == 't') {
 $g_prepend .= $aZoneInfo['prepend'];

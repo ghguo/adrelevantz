@@ -163,9 +163,10 @@ foreach ($acl as $ac) {
 		for ($i = 0; $i < count($parts) - 3; $i++) {
 			$dir .= $parts[$i] . "/";
 		}
-		echo "<script type='text/javascript' src='http://" . $dir . "plugins/deliveryLimitations/Content/category.js'></script>";
-
-		break;
+		if ($ac['type'] == 'deliveryLimitations:Content:Category')
+			echo "<script type='text/javascript' src='http://" . $dir . "plugins/deliveryLimitations/Content/category.js'></script>";
+		else
+			echo "<script type='text/javascript' src='http://" . $dir . "plugins/deliveryLimitations/Content/productcategory.js'></script>";
 	}
 }
 /*-------------------------------------------------------*/

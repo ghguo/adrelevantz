@@ -164,9 +164,9 @@ foreach ($acl as $ac) {
 			$dir .= $parts[$i] . "/";
 		}
 		if ($ac['type'] == 'deliveryLimitations:Content:Category')
-			echo "<script type='text/javascript' src='http://" . $dir . "plugins/deliveryLimitations/Content/category.js'></script>";
+			echo "<script type='text/javascript' src='https://" . $dir . "plugins/deliveryLimitations/Content/category.js'></script>";
 		else
-			echo "<script type='text/javascript' src='http://" . $dir . "plugins/deliveryLimitations/Content/productcategory.js'></script>";
+			echo "<script type='text/javascript' src='https://" . $dir . "plugins/deliveryLimitations/Content/productcategory.js'></script>";
 	}
 }
 /*-------------------------------------------------------*/

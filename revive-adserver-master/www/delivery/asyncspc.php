@@ -3252,7 +3252,76 @@ $aBanner['logUrl'] = $logUrl;
 $aBanner['aSearch'] = $search;
 $aBanner['aReplace'] = $replace;
 OX_Delivery_Common_hook('postAdRender', array(&$code, $aBanner, &$context));
+if (!empty($_POST['q']) && !empty($_POST['promotion'])) {
+	$promo = GetPromotionByContent(trim($_POST['q']), $aBanner);
+	if (!empty($promo)){
+		$code = WithPromotion($promo, $aBanner, $code);
+	}
+} 
 return MAX_commonConvertEncoding($code, $charset);
+}
+function GetPromotionByContent($content, $aBanner)
+{
+	$zs = explode('|', $_POST['zones']);
+	$ps = explode('|', $_POST['promoters']);
+	for ($i = 0; $i < count($zs); $i++) {
+		if ($zs[$i] == $aBanner['zoneid']) {
+			$pm = $ps[$i];
+			break;
+		}
+	}
+	
+	$postdata = http_build_query(
+	    array(
+	        'q' => $content,
+	        'zoneId' => $aBanner['zoneid'],
+	        'bannerId' => $aBanner['ad_id'],
+	        'publisher' => $_POST['publisher'],
+	        'promoter' => $pm,
+			'latitude' => $GLOBALS['_MAX']['CLIENT_GEO']['latitude'],
+			'longitude' => $GLOBALS['_MAX']['CLIENT_GEO']['longitude']
+	    )
+	);
+
+	$opts = array('http' =>
+	    array(
+	        'method'  => 'POST',
+	        'header'  => 'Content-type: application/x-www-form-urlencoded',
+	        'content' => $postdata
+	    )
+	);
+	
+	$promoServer = $GLOBALS['_MAX']['CONF']['var']['promoServer'];
+	$context  = stream_context_create($opts);
+	$result = file_get_contents($promoServer, false, $context);
+	if (!empty($result))
+		$result = json_decode($result, true);
+	
+	return $result;
+}
+function WithPromotion($promo, $aBanner, $code)
+{
+$pattern = '/oadest=(.*)$/';
+preg_match($pattern, $code, $matches, PREG_OFFSET_CAPTURE, 3);
+$origUrl = strstr($matches[1][0], '\'', true);
+$newUrl = preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($promo['ProductUrl']));
+$newString = str_replace($origUrl, $newUrl, $code);
+$origImg = strstr($newString, '>');
+$origImg = strstr(substr($origImg, 1), '>', true) . '>';
+$newImg = $promo['ImageUrl'];
+$newTitle = $promo['Title'];
+if (strlen($newTitle) > 50){
+	$shortTitle = substr($newTitle, 0, 50);
+	$newTitle = substr($shortTitle, 0, strrpos($shortTitle, ' '));
+}
+$newPrice = $promo['PriceFormatted'];
+$newDiv = '<div style="width:' . $aBanner[width] . 'px;height:' . $aBanner[height] . 'px;border:1px solid black;text-align:center;"><img src="' 
+. $newImg . '" style="max-width:200px;max-height:200px;width:auto;height:auto;"><div style="width:100%;display:block;height:50px;"><div style="font-weight:bold;padding-top:1px;">' 
+. $newTitle . '</div><div style="padding-top:1px;font-weight:bold;">' 
+. $newPrice . '</div></div></div>';
+$code = str_replace($origImg, $newDiv, $newString);
+
+	return $code;
 }
 function MAX_adRenderImageBeacon($logUrl, $beaconId = 'beacon', $userAgent = null)
 {

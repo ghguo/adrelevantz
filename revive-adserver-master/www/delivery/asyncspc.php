@@ -3310,14 +3310,14 @@ $origImg = strstr($newString, '>');
 $origImg = strstr(substr($origImg, 1), '>', true) . '>';
 $newImg = $promo['ImageUrl'];
 $newTitle = $promo['Title'];
-if (strlen($newTitle) > 50){
-	$shortTitle = substr($newTitle, 0, 50);
+if (strlen($newTitle) > 40){
+	$shortTitle = substr($newTitle, 0, 40);
 	$newTitle = substr($shortTitle, 0, strrpos($shortTitle, ' '));
 }
 $newPrice = $promo['PriceFormatted'];
 $newDiv = '<div style="width:' . $aBanner[width] . 'px;height:' . $aBanner[height] . 'px;border:1px solid black;text-align:center;"><img src="' 
-. $newImg . '" style="max-width:200px;max-height:200px;width:auto;height:auto;"><div style="width:100%;display:block;height:50px;"><div style="font-weight:bold;padding-top:1px;">' 
-. $newTitle . '</div><div style="padding-top:1px;font-weight:bold;">' 
+. $newImg . '" style="max-width:198px;max-height:198px;width:auto;height:auto;"><div style="width:100%;display:block;height:50px;"><div style="padding-top:1px;">' 
+. $newTitle . '</div><div style="padding-top:1px;">' 
 . $newPrice . '</div></div></div>';
 $code = str_replace($origImg, $newDiv, $newString);
 

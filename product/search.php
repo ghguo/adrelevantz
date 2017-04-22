@@ -44,6 +44,6 @@ foreach ($names as $n )
 		$result->free();
 	}
 }
-echo json_encode(array_unique($items, SORT_REGULAR));
+echo json_encode($items);
 $conn->close(); 
 ?> 

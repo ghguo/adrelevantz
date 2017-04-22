@@ -23,26 +23,29 @@ if (!empty($_GET['merchant'])) {
 	$merchant = $_GET['merchant'];
 }
 
-$items = array();
+$query = '';
 foreach ($names as $n )
 {
-	$query = "SELECT title,link,image_link,price FROM product p join merchant m on p.id_merchant = m.id where m.name = '" . $merchant . 
-	"' and MATCH(p.title,p.description) AGAINST ('" . $n . "' IN NATURAL LANGUAGE MODE) LIMIT 2" ;
-	if ($result = $conn->query($query)) {
-	
-		/* fetch associative array */
-		while ($row = $result->fetch_assoc()) {
-			$items[] = array (
-					'title'  => $row["title"],
-					'link'   => $row["link"],
-					'image'  => $row["image_link"],
-					'price'  => $row["price"]
-			);
-		}
-	
-		/* free result set */
-		$result->free();
+	$query = $query . "(SELECT title,link,image_link,price FROM product p join merchant m on p.id_merchant = m.id where m.name = '" . $merchant .
+	"' and MATCH(p.title,p.description) AGAINST ('" . $n . "' IN NATURAL LANGUAGE MODE) LIMIT 2) UNION ";
+}
+$query = substr($query, 0, strlen($query) - 7);
+
+$items = array();
+if ($result = $conn->query($query)) {
+
+	/* fetch associative array */
+	while ($row = $result->fetch_assoc()) {
+		$items[] = array (
+				'title'  => $row["title"],
+				'link'   => $row["link"],
+				'image'  => $row["image_link"],
+				'price'  => $row["price"]
+		);
 	}
+
+	/* free result set */
+	$result->free();
 }
 echo json_encode($items);
 $conn->close(); 

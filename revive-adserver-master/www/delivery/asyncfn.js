@@ -17,7 +17,18 @@ function revivefn(d, c, cq) {
 								f.done = true;
 							}
 							if (c.cq != "") {
-								f.apply(f.detect(), c.cq)
+								mt = d.getElementsByTagName('meta');
+								kw = "";
+								if (mt.length > 0) {
+									for (i = 0; i < mt.length; i++) {
+										if (mt[i].getAttribute("name") == "keywords") {
+											kw = mt[i].getAttribute("content");
+											continue;
+										}
+									}
+								}
+								q = kw.length>0 ? kw + "|. " + c.cq : c.cq;
+								f.apply(f.detect(), q)
 							} else {
 								f.apply(f.detect())
 							}
